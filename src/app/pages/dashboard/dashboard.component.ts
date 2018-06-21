@@ -35,71 +35,71 @@ export class DashboardComponent implements OnInit {
       }
       //console.log(this.cascosArray);
 
-      let intervalo = setInterval( () => {
+      // let intervalo = setInterval( () => {
 
-        for( let c of data ){  
+      //   for( let c of data ){  
         
-          let hoy = this.fecha_actual();
+      //     let hoy = this.fecha_actual();
           
-          // Actualizo a la fecha de hoy
-          if( c.parametros.fecha_actual !== hoy ){
-            const refParametros = this.db.list(`construcciones/construccion-1/cascos/${c.key}`);
-            refParametros.update('parametros', {
-              fecha_actual: hoy,
-              bateria: c.parametros.bateria,
-              conexion: c.parametros.conexion,
-              estado: c.parametros.estado,
-              nombre: c.parametros.nombre,
-              proximidad: c.parametros.proximidad,
-              trabajador: c.parametros.trabajador 
-            });
+      //     // Actualizo a la fecha de hoy
+      //     if( c.parametros.fecha_actual !== hoy ){
+      //       const refParametros = this.db.list(`construcciones/construccion-1/cascos/${c.key}`);
+      //       refParametros.update('parametros', {
+      //         fecha_actual: hoy,
+      //         bateria: c.parametros.bateria,
+      //         conexion: c.parametros.conexion,
+      //         estado: c.parametros.estado,
+      //         nombre: c.parametros.nombre,
+      //         proximidad: c.parametros.proximidad,
+      //         trabajador: c.parametros.trabajador 
+      //       });
   
-            // Creo el nodo historial de la fecha de hoy
-            const refHistorial = this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`);
-            refHistorial.push({
-              cerca: 0,
-              normal: 0,
-              lejos: 0
-            });
-            clearInterval(intervalo); // cancelo el intervalo de este momento
-          }
+      //       // Creo el nodo historial de la fecha de hoy
+      //       const refHistorial = this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`);
+      //       refHistorial.push({
+      //         cerca: 0,
+      //         normal: 0,
+      //         lejos: 0
+      //       });
+      //       clearInterval(intervalo); // cancelo el intervalo de este momento
+      //     }
           
-          this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`).snapshotChanges()
-                  .subscribe( data => {
-                    // if( c.parametros.proximidad <= 20 ) {
-                    //   console.log(c.parametros.nombre);
+      //     this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`).snapshotChanges()
+      //             .subscribe( data => {
+      //               // if( c.parametros.proximidad <= 20 ) {
+      //               //   console.log(c.parametros.nombre);
                       
-                    //   console.log(`${c.parametros.nombre} esta Cerca`);
-                    // }else if( c.parametros.proximidad >= 21 && c.parametros.proximidad < 100 ) {
-                    //   console.log(`${c.parametros.nombre} esta Normal`);
-                    // }else {
-                    //   console.log(`${c.parametros.nombre} esta Lejos`);
-                    //   let obj;
-                    //   for(let i in c.historial){
-                    //     if( i === hoy){
-                    //       for(let j in c.historial[i]){
-                    //         let url = `construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`;
+      //               //   console.log(`${c.parametros.nombre} esta Cerca`);
+      //               // }else if( c.parametros.proximidad >= 21 && c.parametros.proximidad < 100 ) {
+      //               //   console.log(`${c.parametros.nombre} esta Normal`);
+      //               // }else {
+      //               //   console.log(`${c.parametros.nombre} esta Lejos`);
+      //               //   let obj;
+      //               //   for(let i in c.historial){
+      //               //     if( i === hoy){
+      //               //       for(let j in c.historial[i]){
+      //               //         let url = `construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`;
                             
-                    //         const refHistorial = this.db.list(url);
-                    //         refHistorial.update(data[0].key, {
-                    //           cerca: c.historial[i][j].cerca,
-                    //           normal: c.historial[i][j].normal,
-                    //           lejos: c.historial[i][j].lejos +1
-                    //         });
+      //               //         const refHistorial = this.db.list(url);
+      //               //         refHistorial.update(data[0].key, {
+      //               //           cerca: c.historial[i][j].cerca,
+      //               //           normal: c.historial[i][j].normal,
+      //               //           lejos: c.historial[i][j].lejos +1
+      //               //         });
                            
-                    //       }
+      //               //       }
                           
-                    //       break;
-                    //     }
-                    //   }
+      //               //       break;
+      //               //     }
+      //               //   }
                       
-                    // }
-                  });
+      //               // }
+      //             });
   
             
-          }
+      //     }
         
-      }, 10000 ); // 3 minutos = 180000
+      // }, 10000 ); // 3 minutos = 180000
 
       
     });

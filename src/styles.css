@@ -14,6 +14,9 @@
 .img-tam-100 {width: 100px;}
 .img-tam-120 {width: 120px;}
 
+/* Margen-left */
+.m-left-2 { padding-right: 10px; }
+
 /* Colores background */
 .bg-orange        {background: #ffa62b;}
 .bg-green         {background: #51b64c;}
