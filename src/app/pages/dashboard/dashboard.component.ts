@@ -42,7 +42,7 @@ export class DashboardComponent implements OnDestroy {
               this.generarHistorial( casco ); // metodo que genera el historial
               clearInterval( intervalo ); // cancelo el intervalo de este momento
             }
-          }, 2000) // 3 min = 180000
+          }, 180000) // 3 min = 180000
         });
   }
 
