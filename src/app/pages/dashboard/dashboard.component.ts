@@ -1,117 +1,112 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+// Servicios
+import { DatabaseService } from '../../services/service.index';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styles: []
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnDestroy {
   
-  
-  cascosRef: AngularFireList<any>;
-  cascos: Observable<any[]>;
+  cascosArray:any[] = []; // arreglo en donde guardo los registros de firebase para mostrar en pantalla
+  hoy:string; // fecha actual
+  rutaCascos = 'construcciones/construccion-1/cascos'; // ruta generica de los cascos en firebase
 
-  cascosArray:any[] = [];
+  // Declaro estas variables para asignarlas a los observables
+  // y asi cuando se destruya la pagina estos se cancelen
+  subscribeCascos: Subscription;
+  subscribeHistorial: Subscription;
 
-  constructor( private db: AngularFireDatabase ){
+  constructor( private _db: DatabaseService ){
     
-    this.cascosRef = this.db.list('construcciones/construccion-1/cascos/');
-    this.cascos = this.cascosRef.snapshotChanges().pipe(
-      map(changes => 
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
-    
-    this.cascos.subscribe( (data:any) => {
-      
+    // Trae los cascos que mostramos en pantalla
+    this.subscribeCascos = this._db.getData( this.rutaCascos ).subscribe( data => {
       this.cascosArray = [];
       
       for( let casco of data ){
         this.cascosArray.push( casco.parametros );
       }
-      //console.log(this.cascosArray);
-
-      // let intervalo = setInterval( () => {
-
-      //   for( let c of data ){  
-        
-      //     let hoy = this.fecha_actual();
-          
-      //     // Actualizo a la fecha de hoy
-      //     if( c.parametros.fecha_actual !== hoy ){
-      //       const refParametros = this.db.list(`construcciones/construccion-1/cascos/${c.key}`);
-      //       refParametros.update('parametros', {
-      //         fecha_actual: hoy,
-      //         bateria: c.parametros.bateria,
-      //         conexion: c.parametros.conexion,
-      //         estado: c.parametros.estado,
-      //         nombre: c.parametros.nombre,
-      //         proximidad: c.parametros.proximidad,
-      //         trabajador: c.parametros.trabajador 
-      //       });
-  
-      //       // Creo el nodo historial de la fecha de hoy
-      //       const refHistorial = this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`);
-      //       refHistorial.push({
-      //         cerca: 0,
-      //         normal: 0,
-      //         lejos: 0
-      //       });
-      //       clearInterval(intervalo); // cancelo el intervalo de este momento
-      //     }
-          
-      //     this.db.list(`construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`).snapshotChanges()
-      //             .subscribe( data => {
-      //               // if( c.parametros.proximidad <= 20 ) {
-      //               //   console.log(c.parametros.nombre);
-                      
-      //               //   console.log(`${c.parametros.nombre} esta Cerca`);
-      //               // }else if( c.parametros.proximidad >= 21 && c.parametros.proximidad < 100 ) {
-      //               //   console.log(`${c.parametros.nombre} esta Normal`);
-      //               // }else {
-      //               //   console.log(`${c.parametros.nombre} esta Lejos`);
-      //               //   let obj;
-      //               //   for(let i in c.historial){
-      //               //     if( i === hoy){
-      //               //       for(let j in c.historial[i]){
-      //               //         let url = `construcciones/construccion-1/cascos/${c.key}/historial/${hoy}`;
-                            
-      //               //         const refHistorial = this.db.list(url);
-      //               //         refHistorial.update(data[0].key, {
-      //               //           cerca: c.historial[i][j].cerca,
-      //               //           normal: c.historial[i][j].normal,
-      //               //           lejos: c.historial[i][j].lejos +1
-      //               //         });
-                           
-      //               //       }
-                          
-      //               //       break;
-      //               //     }
-      //               //   }
-                      
-      //               // }
-      //             });
-  
-            
-      //     }
-        
-      // }, 10000 ); // 3 minutos = 180000
-
-      
     });
+
+    // Historial
+    this.subscribeHistorial = this._db.getData( this.rutaCascos )
+        .subscribe( data => {
+          let intervalo = setInterval( () => { // intervalo de 3 minutos para ir actualizando la base de datos
+            this.hoy = this.fecha_actual(); // asigno la fecha de hoy
     
-    
+            for( let casco of data ){
+              this.verificaFecha( casco, intervalo ); // metodo que cambia la fecha y genera los nuevos nodos de cada fecha
+              this.generarHistorial( casco ); // metodo que genera el historial
+              clearInterval( intervalo ); // cancelo el intervalo de este momento
+            }
+          }, 2000) // 3 min = 180000
+        });
   }
 
-  
-
-  ngOnInit() {
+  // Funcion que se activa al momento de destruir la pagina (cerrarla, cambiarse, etc).
+  // la utilizo para dejar de hacerle seguimiento a los cascos que se mostraran en pantalla
+  // pero seguire revisando el historial
+  ngOnDestroy(){
+    this.subscribeCascos.unsubscribe(); // le digo chao al observable de los cascos!!
   }
 
+  // Verifica la fecha actual y la compara con la de la base de datos
+  // Para actualizarla e ir creando nuevos nodos de historiales diarios
+  // Si entra en la unica condicion cancela el intervalo para evitar problemas
+  verificaFecha( casco:any, intervalo:any ):void{
+    // Verifico si la fecha actual es igual a la del dia de hoy
+    if( casco.parametros.fecha_actual !== this.hoy ){
+            
+      let parametros = casco.parametros; // igualo el objeto traido desde firebase al creado local.
+      parametros.fecha_actual = this.hoy; // cambio el valor de fecha_actual a la fecha actual
+
+      // Cambio la fecha actual del nodo parametros
+      this._db.update('parametros', `construcciones/construccion-1/cascos/${ casco.key }`, parametros );
+
+      // Creo el nodo historial de la fecha de hoy
+      let historialDefault = { cerca: 0, normal: 0, lejos: 0 };
+      let ruta = `construcciones/construccion-1/cascos/${ casco.key }/historial`
+      this._db.postKey(ruta, historialDefault, this.hoy);
+      clearInterval( intervalo ); // cancelo el intervalo de este momento
+    }
+  }
+
+  // Guardo el historial de la fecha actual este se guarda el estado actual del casco
+  generarHistorial( casco:any ){
+    let rutaHistorial = `${ this.rutaCascos }/${ casco.key }/historial/`; // ruta del historial
+    
+    // Si esta cerca y no esta apagado entrara a esta condicion y actualizara el historial
+    if( casco.parametros.proximidad <= 20 && casco.parametros.estado !== "OFF" ){
+      let historial = casco.historial[this.hoy]; // obtengo la data del historial
+      setTimeout( () => { // le doy 0.5s de desface para asegurarme de obtener el registro de la base de datos
+        historial.cerca += 1 // le sumo 1 al registro cerca del historial en la base de datos
+        this._db.update( this.hoy, rutaHistorial, historial); // actualizo hacia la base de datos
+      }, 500);
+    
+    // Si esta normal y no esta apagado entrara a esta condicion y actualizara el historial
+    }else if( (casco.parametros.proximidad >= 21 && casco.parametros.proximidad < 100) && casco.parametros.estado !== "OFF" ){
+      let historial = casco.historial[this.hoy]; // obtengo la data del historial
+      setTimeout( () => { // le doy 0.5s de desface para asegurarme de obtener el registro de la base de datos
+        historial.normal += 1 // le sumo 1 al registro normal del historial en la base de datos
+        this._db.update( this.hoy, rutaHistorial, historial); // actualizo hacia la base de datos
+      }, 500);
+    
+    // Si esta lejos y no esta apagado entrara a esta condicion y actualizara el historial
+    }else if( casco.parametros.proximidad >= 100 && casco.parametros.estado !== "OFF"){
+      let historial = casco.historial[this.hoy]; // obtengo la data del historial
+      setTimeout( () => { // le doy 0.5s de desface para asegurarme de obtener el registro de la base de datos
+        historial.lejos += 1 // le sumo 1 al registro lejos del historial en la base de datos
+        this._db.update( this.hoy, rutaHistorial, historial); // actualizo hacia la base de datos
+      }, 500);
+    }
+  }
+
+
+
+  // Extrae y retorna la fecha actual con un formato correcto
   fecha_actual():string{
     let date = new Date();
     let dd, mm, hh, m;

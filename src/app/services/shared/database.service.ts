@@ -11,10 +11,33 @@ import { map } from 'rxjs/operators';
 export class DatabaseService {
     
   constructor( public db:AngularFireDatabase ) { }
-
+  
+  // Extrae y retorna un observable de una ruta en especifico desde firebase
   getData( ref:string ):Observable<any> {
     return this.db.list( ref ).snapshotChanges().pipe(
       map( resp => resp.map(c => ({key: c.payload.key, ...c.payload.val()}) ) )
     );
+  }
+  
+
+  // actualiza un nodo completo hacia firebase
+  update( $key:string, ruta:string, data:any ){
+    let ref = this.db.list( ruta );
+    ref.update($key, data);
+  }
+
+
+  // Sube un registro a firebase ( con una clave generada )
+  post( ruta:string, data:any ){
+    let ref = this.db.list( ruta );
+    ref.push( data );
+  }
+
+  
+
+  // Sube un registro a firebase ( con una clave personalizada )
+  postKey( ruta:string, data:any, $key:string ){
+    let ref = this.db.list( ruta );
+    ref.set( $key, data );
   }
 }
