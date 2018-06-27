@@ -1,4 +1,6 @@
-<div class="row top-30" *ngFor="let casco of cascosArray">
+<app-loading *ngIf="loading; else contendido"></app-loading>
+
+<div #contendido class="row top-30" *ngFor="let casco of cascosArray">
   <div class="col-lg-12">
     <h2>
       <img src="assets/images/icon/casco.png" class="img-fluid img-tam-50"> {{ casco.nombre }}

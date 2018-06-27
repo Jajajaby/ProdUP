@@ -11,6 +11,8 @@ import { DatabaseService } from '../../services/service.index';
 })
 export class DashboardComponent implements OnDestroy {
   
+  loading:boolean; // mostrar o no mostrar el loading
+
   cascosArray:any[] = []; // arreglo en donde guardo los registros de firebase para mostrar en pantalla
   hoy:string; // fecha actual
   rutaCascos = 'construcciones/construccion-1/cascos'; // ruta generica de los cascos en firebase
@@ -21,6 +23,8 @@ export class DashboardComponent implements OnDestroy {
   subscribeHistorial: Subscription;
 
   constructor( private _db: DatabaseService ){
+
+    this.loading = true;
     
     // Trae los cascos que mostramos en pantalla
     this.subscribeCascos = this._db.getData( this.rutaCascos ).subscribe( data => {
@@ -29,6 +33,7 @@ export class DashboardComponent implements OnDestroy {
       for( let casco of data ){
         this.cascosArray.push( casco.parametros );
       }
+      this.loading = false;
     });
 
     // Historial

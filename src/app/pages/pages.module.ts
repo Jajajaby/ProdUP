@@ -17,16 +17,18 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 // Plugins
 import { ChartsModule } from 'ng2-charts';
 
-// Temporales
+// Temporale (luego crearemos un modulo para manejar los componentes)
 import { GraficosDonaComponent } from '../components/graficos-dona/graficos-dona.component';
+import { LoadingComponent } from '../components/loading/loading.component';
 
 @NgModule({
    declarations: [
       PagesComponent,
       DashboardComponent,
       Graficas1Component,
+      AccountSettingsComponent,
       GraficosDonaComponent,
-      AccountSettingsComponent
+      LoadingComponent
    ],
    exports: [
       PagesComponent,
