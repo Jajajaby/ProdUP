@@ -1,256 +1,258 @@
 <app-loading *ngIf="loading; else contendido"></app-loading>
 
-<div #contendido class="row top-30" *ngFor="let casco of cascosArray">
-  <div class="col-lg-12">
-    <h2>
-      <img src="assets/images/icon/casco.png" class="img-fluid img-tam-50"> {{ casco.nombre }}
-    </h2>
-  </div>
-  <div class="col-lg-3" *ngIf="casco.bateria > 74">
-    <div class="card bg-green">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/bateria.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+<ng-template #contendido>
+  <div class="row top-30" *ngFor="let casco of cascosArray">
+    <div class="col-lg-12">
+      <h2>
+        <img src="assets/images/icon/casco.png" class="img-fluid img-tam-50"> {{ casco.nombre }}
+      </h2>
+    </div>
+    <div class="col-lg-3" *ngIf="casco.bateria > 74">
+      <div class="card bg-green">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/bateria.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.bateria > 49 && casco.bateria < 75">
-    <div class="card bg-yellow">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/bateria.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.bateria > 24 && casco.bateria < 50">
-    <div class="card bg-orange">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/bateria.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+      
+    <div class="col-lg-3" *ngIf="casco.bateria > 49 && casco.bateria < 75">
+      <div class="card bg-yellow">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/bateria.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.bateria < 25">
-    <div class="card bg-red">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/bateria.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--           FIN Bateria           -->
-  <!-- - - - - - - - - - - - - - - - - -->
-
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--        Inicio Proximidad        -->
-  <!-- - - - - - - - - - - - - - - - - -->
-  <div class="col-lg-3" *ngIf="casco.proximidad > 100">
-    <div class="card bg-green">
-      <div class="card-body caja">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+      
+    <div class="col-lg-3" *ngIf="casco.bateria > 24 && casco.bateria < 50">
+      <div class="card bg-orange">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/bateria.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.proximidad > 60 && casco.proximidad < 100">
-    <div class="card bg-yellow">
-      <div class="card-body caja">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.proximidad > 20 && casco.proximidad < 60">
-    <div class="card bg-orange">
-      <div class="card-body caja">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+      
+    <div class="col-lg-3" *ngIf="casco.bateria < 25">
+      <div class="card bg-red">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/bateria.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Bateria</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.bateria }}% </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.proximidad < 20">
-    <div class="card bg-red">
-      <div class="card-body caja">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--          FIN Proximidad         -->
-  <!-- - - - - - - - - - - - - - - - - -->
-
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--         Inicio conexion         -->
-  <!-- - - - - - - - - - - - - - - - - -->
-  <div class="col-lg-3" *ngIf="casco.conexion > 74">
-    <div class="card bg-green">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/conexion.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--           FIN Bateria           -->
+    <!-- - - - - - - - - - - - - - - - - -->
+      
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--        Inicio Proximidad        -->
+    <!-- - - - - - - - - - - - - - - - - -->
+    <div class="col-lg-3" *ngIf="casco.proximidad > 100">
+      <div class="card bg-green">
+        <div class="card-body caja">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.conexion > 49 && casco.conexion < 75">
-    <div class="card bg-yellow">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/conexion.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.conexion > 24 && casco.conexion < 50">
-    <div class="card bg-orange">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/conexion.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+      
+    <div class="col-lg-3" *ngIf="casco.proximidad > 60 && casco.proximidad < 100">
+      <div class="card bg-yellow">
+        <div class="card-body caja">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.conexion < 25">
-    <div class="card bg-red">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/conexion.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
-            <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--           FIN conexion          -->
-  <!-- - - - - - - - - - - - - - - - - -->
-
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--         Inicio Estado           -->
-  <!-- - - - - - - - - - - - - - - - - -->
-  <div class="col-lg-3" *ngIf="casco.estado === 'ON'">
-    <div class="card bg-green">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/on-off.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Estado</h6>
-            <h2 class="m-t-0 text-white">{{ casco.estado }}</h2>
+      
+    <div class="col-lg-3" *ngIf="casco.proximidad > 20 && casco.proximidad < 60">
+      <div class="card bg-orange">
+        <div class="card-body caja">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-lg-3" *ngIf="casco.estado === 'OFF'">
-    <div class="card bg-red">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <img src="assets/images/icon/on-off.png" class="img-tam-40" />
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-white m-t-10 m-b-0">Estado</h6>
-            <h2 class="m-t-0 text-white">{{ casco.estado }}</h2>
+      
+    <div class="col-lg-3" *ngIf="casco.proximidad < 20">
+      <div class="card bg-red">
+        <div class="card-body caja">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/proximidad.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Proximidad</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.proximidad }} </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--          FIN Proximidad         -->
+    <!-- - - - - - - - - - - - - - - - - -->
+      
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--         Inicio conexion         -->
+    <!-- - - - - - - - - - - - - - - - - -->
+    <div class="col-lg-3" *ngIf="casco.conexion > 74">
+      <div class="card bg-green">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/conexion.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="col-lg-3" *ngIf="casco.conexion > 49 && casco.conexion < 75">
+      <div class="card bg-yellow">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/conexion.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="col-lg-3" *ngIf="casco.conexion > 24 && casco.conexion < 50">
+      <div class="card bg-orange">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/conexion.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="col-lg-3" *ngIf="casco.conexion < 25">
+      <div class="card bg-red">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/conexion.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Conexión</h6>
+              <h2 class="m-t-0 text-white"> {{ casco.conexion }}% </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--           FIN conexion          -->
+    <!-- - - - - - - - - - - - - - - - - -->
+      
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--         Inicio Estado           -->
+    <!-- - - - - - - - - - - - - - - - - -->
+    <div class="col-lg-3" *ngIf="casco.estado === 'ON'">
+      <div class="card bg-green">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/on-off.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Estado</h6>
+              <h2 class="m-t-0 text-white">{{ casco.estado }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="col-lg-3" *ngIf="casco.estado === 'OFF'">
+      <div class="card bg-red">
+        <div class="card-body">
+          <div class="d-flex no-block">
+            <div class="m-r-20 align-self-center">
+              <img src="assets/images/icon/on-off.png" class="img-tam-40" />
+            </div>
+            <div class="align-self-center">
+              <h6 class="text-white m-t-10 m-b-0">Estado</h6>
+              <h2 class="m-t-0 text-white">{{ casco.estado }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- - - - - - - - - - - - - - - - - -->
+    <!--           FIN Estado            -->
+    <!-- - - - - - - - - - - - - - - - - -->
+    <div class="col 12">
+      <hr>
+    </div>
   </div>
-  <!-- - - - - - - - - - - - - - - - - -->
-  <!--           FIN Estado            -->
-  <!-- - - - - - - - - - - - - - - - - -->
-  <div class="col 12">
-    <hr>
-  </div>
-</div>
+</ng-template>
