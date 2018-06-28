@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<app-login *ngIf="!redirect; else pages"></app-login>
+
+<ng-template #pages> 
+   <router-outlet></router-outlet>
+</ng-template>
+

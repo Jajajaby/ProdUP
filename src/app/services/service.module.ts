@@ -6,7 +6,10 @@ import {
   SettingsService, 
   SharedService, 
   SidebarService,
-  DatabaseService
+  DatabaseService,
+  AuthGuardService,
+  AuthService,
+  AuthStorageService
 } from './service.index';
 
 @NgModule({
@@ -17,7 +20,10 @@ import {
     SettingsService,
     SharedService,
     SidebarService,
-    DatabaseService
+    DatabaseService,
+    AuthService,
+    AuthGuardService,
+    AuthStorageService
   ],
   declarations: []
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Servicios
-import { SidebarService } from '../../services/service.index';
+import { SidebarService, AuthService, AuthStorageService } from '../../services/service.index';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,9 +10,28 @@ import { SidebarService } from '../../services/service.index';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor( public _sidebar: SidebarService ) { }
+  constructor( public _sidebar: SidebarService, private _auth: AuthService, private _authStorage: AuthStorageService ) { }
 
   ngOnInit() {
+  }
+  
+  // Cierra la sesion del usuario
+  logout(){
+    this._auth.logout()
+        .then( () => {
+          console.log("Cierre de sesion exitoso");
+          this._authStorage.guardarUsuario({ // guardamos la informacion en el localstorage
+            uid: undefined,
+            email: undefined,
+            emailVerified: undefined,
+            creationTime: undefined,
+            lastSignInTime: undefined,
+            login: false
+          });
+        })
+        .catch( err => {
+          console.log("Error al cerrar sesion", err);
+        });
   }
 
 }
