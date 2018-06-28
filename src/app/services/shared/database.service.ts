@@ -13,10 +13,15 @@ export class DatabaseService {
   constructor( public db:AngularFireDatabase ) { }
   
   // Extrae y retorna un observable de una ruta en especifico desde firebase
+  // obtiene toda la data incluyendo las key
   getData( ref:string ):Observable<any> {
     return this.db.list( ref ).snapshotChanges().pipe(
       map( resp => resp.map(c => ({key: c.payload.key, ...c.payload.val()}) ) )
     );
+  }
+
+  getDataValues( ref:string ):Observable<any>{
+    return this.db.list(ref).valueChanges();
   }
   
 
