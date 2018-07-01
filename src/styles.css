@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-#themecolors a{
-   cursor: pointer;
-}
+#themecolors a{cursor: pointer;}
+.pointer {cursor: pointer;}
 
 /* Margen superior sobre el elemento de arriba */
 .top-30 {margin-top: 30px;}

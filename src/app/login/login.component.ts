@@ -9,6 +9,9 @@ import { Login } from '../interfaces/login.interface';
 import { AuthService, AuthStorageService } from '../services/service.index';
 import { Auth } from "../interfaces/auth.interface";
 
+// Plugins
+import swal from 'sweetalert';
+
 declare function init_plugins();
 
 @Component({
@@ -37,6 +40,12 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8)
       ])
     });
+  
+    // En caso de ya estar loggeado sera redireccionado al dashboard
+    if( this._authStorage.cargarUsuario().login ){
+      this.router.navigate(['/dashboard']);
+      console.warn('Usuario ya autenticado');
+    }
 
   }
 
@@ -53,6 +62,8 @@ export class LoginComponent implements OnInit {
       this._auth.login( this.user )
           .then( () => { // si el inicio de sesión salio correctamente
             
+            swal("Bienvenido", this.user.email, "success", { timer: 2000 }); // Alerta de inicio de sesion
+
             this._auth.afAuth.authState.subscribe( user => {
               if( user !== null ){
                 this._authStorage.guardarUsuario({ // guardamos la informacion en el localstorage

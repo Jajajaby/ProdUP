@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 // Servicios
 import { AuthStorageService } from '../service.index';
@@ -14,16 +14,31 @@ export class AuthGuardService implements CanActivate {
 
   auth: Auth;
 
-  constructor( private authStorage: AuthStorageService ) {
-    this.auth = this.authStorage.cargarUsuario();
+  constructor( private _authStorage: AuthStorageService, public router: Router ) {
+    this.auth = this._authStorage.cargarUsuario(); // cargamos el localstorage
+    
+    if( this.auth === undefined ) { // revisamos si existe la propiedad en el localstorage
+      this._authStorage.guardarUsuario({ // si no existe la creamos con un login false
+        uid: undefined,
+        email: undefined,
+        emailVerified: undefined,
+        creationTime: undefined,
+        lastSignInTime: undefined,
+        login: false
+      });
+      this.auth = this._authStorage.cargarUsuario(); // volvemos a cargarla y la guardamos en auth
+    }
+
   }
 
-  canActivate( next:ActivatedRouteSnapshot, state:RouterStateSnapshot ){
-    if( this.auth.login ){
+  canActivate():boolean{
+    this.auth = this._authStorage.cargarUsuario(); // cargamos el localstorage
+    if( this.auth.login ){ // si esta loggeado puede ingresar
       console.log("Paso el guard");
       return true;
-    }else{
+    }else{ // no esta loggeado y es redireccionado al login
       console.error("Bloqueado por el guard");
+      this.router.navigate(['/login']);
       return false;
     }
   }
