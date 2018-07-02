@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 // Servicios
 import { AuthService, AuthStorageService } from '../../services/service.index';
 
+// Plugins
+import swal from 'sweetalert';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -28,12 +31,14 @@ export class HeaderComponent implements OnInit {
             creationTime: undefined,
             lastSignInTime: undefined,
             login: false
-          });
-
-          this.router.navigate(['/login']);
+          });      
+          swal('Cierre de sesión exitoso!', 'Hasta pronto', 'success', { timer: 2000 });
+          setTimeout( () => { this.router.navigate(['/login']); }, 2000);
+          
         })
         .catch( err => {
           console.log("Error al cerrar sesion", err);
+          swal('Error al cerrar sesión', 'Por favor vuelta a interntarlo', 'error', { timer: 2000 });
         });
   }
 

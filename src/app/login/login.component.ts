@@ -61,9 +61,6 @@ export class LoginComponent implements OnInit {
       
       this._auth.login( this.user )
           .then( () => { // si el inicio de sesión salio correctamente
-            
-            swal("Bienvenido", this.user.email, "success", { timer: 2000 }); // Alerta de inicio de sesion
-
             this._auth.afAuth.authState.subscribe( user => {
               if( user !== null ){
                 this._authStorage.guardarUsuario({ // guardamos la informacion en el localstorage
@@ -78,12 +75,14 @@ export class LoginComponent implements OnInit {
                 this.userFalse.login = false;
                 this._authStorage.guardarUsuario(this.userFalse);
               }
-              
-              this.router.navigate(['/dashboard']); // nos vamos a la pagina del dashboard
+
+              swal("Bienvenido", this.user.email, "success", { timer: 2000 }); // Alerta de inicio de sesion
+              setTimeout( () => { this.router.navigate(['/dashboard']); }, 2000); // nos vamos a la pagina del dashboard
+               
             });
           })
           .catch( err => { // si el inicio de sesion fallo
-            console.log("El usuario o contraseña son incorrectos");
+            swal("Usuario o contraseña incorrectos", "Por favor vuelta a intentarlo", "error", { timer: 2000 }); // Alerta de inicio de sesion
             this.userFalse.login = false;
             this._authStorage.guardarUsuario(this.userFalse);
           });
