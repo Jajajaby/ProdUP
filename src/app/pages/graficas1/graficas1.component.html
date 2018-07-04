@@ -1,17 +1,70 @@
+
+
+<div class="container">
+  <div class="row">
+    <div class="form-group">
+      <label >Seleccione una fecha</label>
+      <select [(ngModel)]="fecha" (ngModelChange)="traerGraficos()" class="form-control">
+        <option *ngFor="let fecha of fechasArray"> {{ fecha }} </option>
+      </select>
+    </div>
+  </div>
+</div>
+
 <div class="row">
 
-   <div class="col-6">
-      <div class="card">
-         <div class="card-body">
+  <div class="col text-center" *ngIf="loading; else contenido">
+      <app-loading></app-loading>
+  </div>
 
-            <h4 class="card-title"> Casco 1 - Proximidad - {{ hoy }} </h4>
+  
+  <ng-template #contenido>
+    <div class="col-lg-6 col-sm-12" *ngFor="let grafico of historial">
+      <div class="card" *ngIf="(grafico.cerca !== 0 
+                               || grafico.normal !== 0 
+                               || grafico.lejos !== 0)
+                               && (grafico.cerca !== undefined 
+                               || grafico.normal !== undefined 
+                               || grafico.lejos !== undefined);
+                               else noExiste">
+        <div class="card-body">
+          <h4 class="card-title"> 
+            {{ grafico.nombre }}
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            Proximidad
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            {{ fecha }} 
+          </h4>
+          
+          <app-graficos-dona [chartLabels]="['Cerca', 'Normal', 'Lejos']"
+                             [chartData]="[grafico.cerca, grafico.normal, grafico.lejos]"
+                             [chartType]="'doughnut'">
+          </app-graficos-dona>
 
-            <app-graficos-dona [chartLabels]="['Cerca', 'Normal', 'Lejos']"
-                               [chartData]="[grafico[0], grafico[1], grafico[2]]"
-                               [chartType]="'doughnut'">
-            </app-graficos-dona>
-            
-          </div>
+          
+                
+        </div>
       </div>
-   </div>
+      
+      <ng-template #noExiste>
+        
+        <div class="col-12 text-center">
+           <div class="card">
+              <div class="card-body">
+                  <h3> No hay datos registrados </h3>
+                  <p class="m-3"> El {{ grafico.nombre }} no presenta historial para la fecha 
+                    <span style="color: red;">{{ fecha }}</span> 
+                  </p>
+              </div>
+           </div>
+        </div>
+
+        
+      </ng-template>
+
+    </div>
+  </ng-template>
+  
+  
+
 </div>

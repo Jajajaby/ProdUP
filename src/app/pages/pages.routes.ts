@@ -16,7 +16,7 @@ const PagesRoute: Routes = [
       canActivate: [AuthGuardService],
       children: [
          { path: 'dashboard', component: DashboardComponent, data: {titulo: 'Dashboard'} },
-         { path: 'graficas1', component: Graficas1Component, data: {titulo: 'Gráficas 1'} },
+         { path: 'graficas1', component: Graficas1Component, data: {titulo: 'Gráficas'} },
          { path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajustes de usuario'} },
          { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
       ] 

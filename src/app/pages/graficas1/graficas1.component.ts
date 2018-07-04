@@ -11,19 +11,55 @@ import { DatabaseService } from '../../services/service.index';
 export class Graficas1Component implements OnInit {
   
   rutaCascos = 'construcciones/construccion-1/cascos'; // ruta generica de los cascos en firebase
-  hoy:string;
-  grafico = [];
-   
-  constructor( private _db: DatabaseService ){
-    this.hoy = this.fecha_actual();
+  hoy:string; // fecha actual
+  fecha:string; // fecha seleccionada
+  fechasArray:string[]; // donde se guardan las key de las fechas
+  historial:any[];
+  loading:boolean = true;
 
-    this._db.getDataValues(`${ this.rutaCascos }/casco-1/historial/${ this.hoy }`)
-          .subscribe( data => {
-            this.grafico = data;
+  constructor( private _db: DatabaseService ){
+
+    this.hoy = this.fecha_actual();
+    this.obtenerFechas();
+    
+  }
+
+  ngOnInit() {
+    this.traerGraficos();
+  }
+
+
+  // hacemos referencia al casco 1 para sacar todas las fechas que estan en el historial
+  obtenerFechas(){
+    this._db.getData( `${this.rutaCascos}/casco-1/historial` )
+          .subscribe( fechas => {
+            this.fechasArray = [];
+            for( let fecha of fechas ){
+              this.fechasArray.push(fecha.key);
+            }
+            this.fecha = this.hoy;
           });
   }
 
-  ngOnInit() {}
+
+  traerGraficos(){
+    this._db.getData( this.rutaCascos )
+            .subscribe( cascos => {
+              let array = [];
+              this.loading = true;
+              for( let casco of cascos ){
+                  
+                this._db.getDataValues( `${ this.rutaCascos }/${ casco.key }/historial/${ this.fecha }` )
+                      .subscribe(  data => {
+                        let obj = { cerca: data[0], normal: data[1], lejos: data[2], nombre: casco.key };
+                        array.push(obj);
+                        this.historial = array;
+                        console.log(this.historial);
+                      }); 
+                }
+                this.loading = false;
+            });
+  }
 
 
    // Extrae y retorna la fecha actual con un formato correcto
