@@ -98,12 +98,12 @@ export class LoginComponent implements OnInit {
     if (this.forma.controls["email"].errors !== null) {
       // si el email no se ingreso
       if (this.forma.controls["email"].errors.required) {
-        this.errorEmail = "El email es requerido";
+        this.errorEmail = "El correo es requerido";
         validador = false;
       }
       // si el email no conincide con el pattern
       if (this.forma.controls["email"].errors.pattern) {
-        this.errorEmail = "Email no valido";
+        this.errorEmail = "Correo no válido";
         validador = false;
       }
     }

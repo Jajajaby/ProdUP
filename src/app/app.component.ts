@@ -16,21 +16,7 @@ export class AppComponent implements OnInit {
 	rutaCascos = 'construcciones/construccion-1/cascos'; // ruta generica de los cascos en firebase
 
 	constructor( public _settings: SettingsService, private _auth: AuthService,
-					 private _db: DatabaseService, private _shared: SharedService ){
-		// // Ver si mostramos el login o el dashboard
-		// this._auth.afAuth.authState
-		// 		.subscribe( user => {
-    	// 		if( user !== null ){ // muestra las paginas (usuario loggeado)
-      //     	setTimeout( () => {
-      //       	this.redirect = true;
-      //       }, 500);
-      //    	}else{ // muestra el login
-      //       setTimeout( () => {
-      //         this.redirect = false;
-      //     	}, 500);
-      //     }
-		// 		});
-   }
+					 private _db: DatabaseService, private _shared: SharedService ){}
 
 
 	// Al cargar la pagina comenzamos a generar el historial
